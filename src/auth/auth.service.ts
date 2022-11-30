@@ -28,26 +28,21 @@ export class AuthService {
     return await this.getAccessToken(user._id, user.name, user.email);
   }
 
+  async refresh() {
+      console.log(1);
+      
+  }
+
   async login(authCredentialDto: LoginDto) {
     const { email, password } = authCredentialDto;
-    const user = await this.userRepository.findOne({
-      where: {
-        email: email,
-      }
-    });
-    if (user == undefined)
-      throw new NotFoundException("No User Found")
-
+    const user = await this.userRepository.findOne({ where: { email: email } });
+    if (user == undefined) throw new NotFoundException("No User Found")
     const isMatch = await bcrypt.compareSync(password, user.password);
     if (!isMatch) throw new BadRequestException('Incorrect username or password');
     return await this.getAccessToken(user._id, user.name, user.email);
   }
 
-  async getAccessToken(
-    id: string,
-    name: string,
-    email: string,
-  ): Promise<{ token: string }> {
+  async getAccessToken(id: string, name: string, email: string,): Promise<{ token: string }> {
     const payload: JwtPayload = { id, name, email };
     const secret = { secret: process.env.APP_SECRET ?? 'topsecret51' };
     const token = this.jwtService.sign(payload, secret);
@@ -55,14 +50,8 @@ export class AuthService {
   }
 
   async getProfile(userInfo: { email: string }) {
-    const user = await this.userRepository.findOne({
-      where: {
-        email: userInfo.email,
-      }, select: ['_id', 'email']
-    });
-    if (user == undefined) {
-      throw new NotFoundException("No User Found")
-    }
+    const user = await this.userRepository.findOne({ where: { email: userInfo.email, }, select: ['_id', 'email'] });
+    if (user == undefined) throw new NotFoundException("No User Found")
     return user
   }
 
