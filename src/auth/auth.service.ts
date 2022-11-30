@@ -25,12 +25,12 @@ export class AuthService {
 
   async register(request: RegisterDto): Promise<{ token: string }> {
     const user = await this.userService.createUserByEmail(request);
-    return await this.getAccessToken(user._id, user.name, user.email);
+    return await this.getAccessToken(user._id, user.name, user.email, user.company_id, user.role);
   }
 
   async refresh() {
-      console.log(1);
-      
+    console.log(1);
+
   }
 
   async login(authCredentialDto: LoginDto) {
@@ -39,11 +39,11 @@ export class AuthService {
     if (user == undefined) throw new NotFoundException("No User Found")
     const isMatch = await bcrypt.compareSync(password, user.password);
     if (!isMatch) throw new BadRequestException('Incorrect username or password');
-    return await this.getAccessToken(user._id, user.name, user.email);
+    return await this.getAccessToken(user._id, user.name, user.email, user.company_id, user.role);
   }
 
-  async getAccessToken(id: string, name: string, email: string,): Promise<{ token: string }> {
-    const payload: JwtPayload = { id, name, email };
+  async getAccessToken(id: string, name: string, email: string, company_id: string, role: string): Promise<{ token: string }> {
+    const payload: JwtPayload = { id, name, email, company_id, role };
     const secret = { secret: process.env.APP_SECRET ?? 'topsecret51' };
     const token = this.jwtService.sign(payload, secret);
     return { token };
@@ -59,6 +59,6 @@ export class AuthService {
     const decodedToken: decodedToken = this.jwtService.decode(jwt);
     if (!decodedToken || isString(decodedToken)) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     this.getProfile({ email: decodedToken.email })
-    return { id: decodedToken.id, name: decodedToken.name, email: decodedToken.email };
+    return { id: decodedToken.id, name: decodedToken.name, email: decodedToken.email, company_id: decodedToken.company_id, role: decodedToken.role };
   }
 }
