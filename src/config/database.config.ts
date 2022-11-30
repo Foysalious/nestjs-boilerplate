@@ -8,6 +8,6 @@ export default registerAs(
         type: 'mongodb',
         url: 'mongodb+srv://qwerty1234:qwerty1234@cluster0.7bupr.mongodb.net/attendence',
         entities: [__dirname + '/../**/*.entity.{js,ts}'],
+        useUnifiedTopology: true 
     }),
 );
- 
