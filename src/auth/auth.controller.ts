@@ -1,8 +1,6 @@
 import { Controller, Get, Post, Body, Patch, UsePipes, Param, Delete, Res, ValidationPipe, Req, } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
 import { RegisterDto } from './dto/register.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { Response, Request } from 'express';
 import { LoginDto } from './dto/login.dto';
 
@@ -25,6 +23,7 @@ export class AuthController {
   @Post('auth/refresh')
   @UsePipes(new ValidationPipe({ transform: true }))
   async refreshToken(@Req() request: Request, @Res() response: Response) {
+    console.log(process.env.MONGO_DSN);
     const token = await this.authService.refresh(response.locals.userPayload);
     return response.status(201).send(token);
   }

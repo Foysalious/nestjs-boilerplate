@@ -7,7 +7,7 @@ export default registerAs(
     'typeOrmConfig',
     (): TypeOrmModuleOptions => ({
         type: 'mongodb',
-        url: 'mongodb://localhost:27017/attendence',
+        url: process.env.MONGO_DSN,
         entities: [__dirname + '/../**/*.entity.{js,ts}'],
         useUnifiedTopology: true  
     }),
