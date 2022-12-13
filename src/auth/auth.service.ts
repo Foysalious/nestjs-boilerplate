@@ -28,9 +28,9 @@ export class AuthService {
     return await this.getAccessToken(user._id, user.name, user.email, user.company_id, user.role);
   }
 
-  async refresh() {
-    console.log(1);
-
+  async refresh(token: string) {
+    const user = await this.jwtTokenDecode(token)
+    return await this.getAccessToken(user._id, user.name, user.email, user.company_id, user.role);
   }
 
   async login(authCredentialDto: LoginDto) {

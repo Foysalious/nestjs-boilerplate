@@ -9,6 +9,7 @@ export default registerAs(
         type: 'mongodb',
         url: 'mongodb://localhost:27017/attendence',
         entities: [__dirname + '/../**/*.entity.{js,ts}'],
-        useUnifiedTopology: true 
+        useUnifiedTopology: true  
     }),
 ); 
+ 
