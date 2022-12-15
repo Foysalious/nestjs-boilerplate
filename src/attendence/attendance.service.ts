@@ -11,8 +11,18 @@ export class AttendanceService {
     @InjectRepository(Attendance) private attendanceRepository: Repository<Attendance>,
 
   ) { }
-  create(createAttendenceDto: CreateAttendenceDto) {
-    return 'This action adds a new attendence';
+  create(userId: string) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let date_ob = new Date();
+    
+
+
+    return this.attendanceRepository.save({
+     "user_id": userId,
+     "date": date_ob,
+     "day":days[date_ob.getDay()]
+    })
   }
 
   findAll() {

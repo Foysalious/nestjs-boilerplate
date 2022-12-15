@@ -1,15 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
 import { CreateAttendenceDto as CreateAttendanceDto } from './dto/create-attendence.dto';
 import { UpdateAttendenceDto as UpdateAttendanceDto } from './dto/update-attendence.dto';
-
+import { Response, Request } from 'express';
 @Controller('api/v1')
 export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) { }
 
   @Post('attendance')
-  storeUserAttendance(@Body() createAttendanceDto: CreateAttendanceDto) {
-    return this.attendanceService.create(createAttendanceDto);
+  storeUserAttendance(@Res() response: Response) {
+    return this.attendanceService.create(response.locals.userPayload.id);
   }
 
   @Get()
