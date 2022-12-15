@@ -57,7 +57,6 @@ export class AuthService {
   async jwtTokenDecode(jwt: string): Promise<JwtPayload> {
     const decodedToken: decodedToken = this.jwtService.decode(jwt);
     if (!decodedToken || isString(decodedToken)) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-    this.getProfile({ email: decodedToken.email })
     return { id: decodedToken.id, name: decodedToken.name, email: decodedToken.email, company_id: decodedToken.company_id, role: decodedToken.role };
   }
 }

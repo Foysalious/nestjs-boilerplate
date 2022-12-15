@@ -12,9 +12,10 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from './user/user.service';
 import { User } from './user/entities/user.entity';
 import { ConfigModule } from '@nestjs/config';
+import { CompanyModule } from './company/company.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({isGlobal: true,}), TypeOrmModule.forRoot(dbConfig()), AuthModule, UserModule, TypeOrmModule.forFeature([User])],
+  imports: [ TypeOrmModule.forRoot(dbConfig()), AuthModule, UserModule, TypeOrmModule.forFeature([User]), CompanyModule],
   controllers: [AppController],
   providers: [AppService, AuthService, JwtService, UserService],
 

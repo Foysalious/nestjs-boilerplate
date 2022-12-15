@@ -22,8 +22,7 @@ export class AuthController {
 
   @Post('auth/refresh')
   @UsePipes(new ValidationPipe({ transform: true }))
-  async refreshToken(@Req() request: Request, @Res() response: Response) {
-    console.log(process.env.MONGO_DSN);
+  async refreshToken(@Res() response: Response) {
     const token = await this.authService.refresh(response.locals.userPayload);
     return response.status(201).send(token);
   }
