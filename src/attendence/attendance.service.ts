@@ -11,18 +11,22 @@ export class AttendanceService {
     @InjectRepository(Attendance) private attendanceRepository: Repository<Attendance>,
 
   ) { }
-  create(userId: string) {
+  async create(userId: string) {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    let date_ob = new Date();
-    
+    let date = new Date();
 
+    const attendance = await this.attendanceRepository.findOne({ where: { user_id: userId } })
+    console.log(attendance);
 
-    return this.attendanceRepository.save({
-     "user_id": userId,
-     "date": date_ob,
-     "day":days[date_ob.getDay()]
-    })
+    // const data = {
+    //   "user_id": userId,
+    //   "date": date,
+    //   "day": days[date.getDay()],
+    //   "month": months[date.getMonth()],
+    //   "type": "check-in"
+    // }
+    // return this.attendanceRepository.save(data)
   }
 
   findAll() {

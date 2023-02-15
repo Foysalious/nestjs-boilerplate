@@ -9,7 +9,8 @@ export class AttendanceController {
 
   @Post('attendance')
   storeUserAttendance(@Res() response: Response) {
-    return this.attendanceService.create(response.locals.userPayload.id);
+     this.attendanceService.create(response.locals.userPayload.id);
+    return response.status(201).send({ message: "Successful" });
   }
 
   @Get()

@@ -9,6 +9,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
   @Post('auth/register')
+  @UsePipes(new ValidationPipe({ transform: true }))
   async register(@Body() registerDto: RegisterDto, @Res() response: Response) {
     const user = await this.authService.register(registerDto);
     return response.status(201).send(user);
