@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, Index, ObjectIdColumn } from 'typeorm';
 
-@Entity('attendance')
+@Entity('attendances')
 export class Attendance extends BaseEntity {
     @ObjectIdColumn()
     _id: string;
@@ -11,10 +11,26 @@ export class Attendance extends BaseEntity {
 
     @Column()
     @Index()
-    date: Date;
+    date: Number;
 
     @Column()
     @Index()
     day: string;
+
+    @Column()
+    @Index()
+    timestamp: Date;
+
+    @Column()
+    @Index()
+    month: String;
+
+    @Column()
+    @Index()
+    year: Number;
+
+    @Column()
+    @Index()
+    type: String;
 }
 

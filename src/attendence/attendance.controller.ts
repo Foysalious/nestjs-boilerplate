@@ -8,8 +8,8 @@ export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) { }
 
   @Post('attendance')
-  storeUserAttendance(@Res() response: Response) {
-     this.attendanceService.create(response.locals.userPayload.id);
+  async storeUserAttendance(@Res() response: Response) {
+    await this.attendanceService.create(response.locals.userPayload.id);
     return response.status(201).send({ message: "Successful" });
   }
 
